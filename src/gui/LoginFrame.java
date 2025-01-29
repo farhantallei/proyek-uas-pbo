@@ -19,7 +19,7 @@ public class LoginFrame extends JFrame {
      */
     public LoginFrame() {
         // Inisialisasi frame
-        setTitle("Login Aplikasi Pengelolaan Stok Bahan");
+        setTitle("Login Aplikasi Sistem Manajemen Stok Toko HP");
         setContentPane(panel1);
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

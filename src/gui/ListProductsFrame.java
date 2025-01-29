@@ -36,6 +36,7 @@ public class ListProductsFrame extends JFrame {
      */
     public ListProductsFrame() {
         // Inisialisasi frame
+        setTitle("Aplikasi Sistem Manajemen Stok Toko HP");
         setContentPane(panel1);
         setSize(800, 600);
         setMinimumSize(getSize());
