@@ -11,6 +11,9 @@ Ini adalah proyek UAS untuk memenuhi tugas UAS pada mata kuliah Pemrograman Bero
 ![List Products](images/3.jpeg)
 *Halaman daftar produk.*
 
+![Stock Product](images/4.jpeg)
+*Halaman stok produk.*
+
 ## Cara Build
 
 1. Buka terminal atau command prompt.

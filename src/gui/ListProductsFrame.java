@@ -1,7 +1,7 @@
 package gui;
 
-import model.Product;
-import repository.ProductRepository;
+import model.Phone;
+import repository.PhoneRepository;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,10 +23,11 @@ public class ListProductsFrame extends JFrame {
     private JTextField nameField;
     private JTextField priceField;
     private JButton kembaliButton;
+    private JTextField brandField;
 
     // Daftar variabel
     private DefaultTableModel tableModel;
-    private ProductRepository productRepository;
+    private PhoneRepository phoneRepository;
 
     // Number formatter
     NumberFormat numberFormat = NumberFormat.getInstance();
@@ -44,23 +45,24 @@ public class ListProductsFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // Inisialisasi model tabel
-        String[] columnNames = {"Nama", "Harga"};
+        String[] columnNames = {"Nama", "Merek", "Harga"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table1.setModel(tableModel);
 
         // Mendapatkan instance dari ProductRepository
-        this.productRepository = ProductRepository.getInstance();
+        this.phoneRepository = PhoneRepository.getInstance();
 
         updateTable();
 
         tambahButton.addActionListener(e -> {
             try {
+                String brand = brandField.getText();
                 String name = nameField.getText();
                 double price = Double.parseDouble(priceField.getText());
 
-                Product product = new Product(name, price, 0);
+                Phone phone = new Phone(name, price, 0, brand);
 
-                productRepository.addProduct(product);
+                phoneRepository.addPhone(phone);
                 updateTable();
                 clearFields();
             } catch (Exception ex) {
@@ -73,9 +75,9 @@ public class ListProductsFrame extends JFrame {
             int selectedRow = table1.getSelectedRow();
             if (selectedRow != -1) {
                 tambahButton.setEnabled(false);
-                Product product = productRepository.getProductByIndex(selectedRow);
-                nameField.setText(product.getName());
-                priceField.setText(String.valueOf(product.getPrice()));
+                Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
+                nameField.setText(phone.getName());
+                priceField.setText(String.valueOf(phone.getPrice()));
             }
         });
 
@@ -85,9 +87,9 @@ public class ListProductsFrame extends JFrame {
                 try {
                     String name = nameField.getText();
                     double price = Double.parseDouble(priceField.getText());
-                    Product product = productRepository.getProductByIndex(selectedRow);
-                    product.setName(name);
-                    product.setPrice(price);
+                    Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
+                    phone.setName(name);
+                    phone.setPrice(price);
                     updateTable();
                     clearFields();
                 } catch (Exception ex) {
@@ -102,7 +104,7 @@ public class ListProductsFrame extends JFrame {
 
             for (int i = selectedRow.length - 1; i >= 0; i--) {
                 if (selectedRow[i] != -1) {
-                    productRepository.removeProductByIndex(selectedRow[i]);
+                    phoneRepository.removePhoneByIndex(selectedRow[i]);
                     updateTable();
                     clearFields();
                 }
@@ -123,10 +125,11 @@ public class ListProductsFrame extends JFrame {
     private void updateTable() {
         tableModel.setRowCount(0);
 
-        for (Product product : productRepository.getProductList()) {
+        for (Phone phone : phoneRepository.getPhoneList()) {
             tableModel.addRow(new Object[]{
-                product.getName(),
-                numberFormat.format(product.getPrice()),
+                phone.getName(),
+                phone.getBrand(),
+                numberFormat.format(phone.getPrice()),
             });
         }
     }
