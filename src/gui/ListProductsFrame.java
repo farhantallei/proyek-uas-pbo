@@ -1,7 +1,8 @@
 package gui;
 
 import model.Phone;
-import repository.PhoneRepository;
+import model.Product;
+import repository.ProductRepository;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,7 +28,7 @@ public class ListProductsFrame extends JFrame {
 
     // Daftar variabel
     private DefaultTableModel tableModel;
-    private PhoneRepository phoneRepository;
+    private ProductRepository productRepository;
 
     // Number formatter
     NumberFormat numberFormat = NumberFormat.getInstance();
@@ -50,7 +51,7 @@ public class ListProductsFrame extends JFrame {
         table1.setModel(tableModel);
 
         // Mendapatkan instance dari ProductRepository
-        this.phoneRepository = PhoneRepository.getInstance();
+        this.productRepository = ProductRepository.getInstance();
 
         updateTable();
 
@@ -60,9 +61,9 @@ public class ListProductsFrame extends JFrame {
                 String name = nameField.getText();
                 double price = Double.parseDouble(priceField.getText());
 
-                Phone phone = new Phone(name, price, 0, brand);
+                Product phone = new Phone(name, price, 0, brand);
 
-                phoneRepository.addPhone(phone);
+                productRepository.addProduct(phone);
                 updateTable();
                 clearFields();
             } catch (Exception ex) {
@@ -75,9 +76,9 @@ public class ListProductsFrame extends JFrame {
             int selectedRow = table1.getSelectedRow();
             if (selectedRow != -1) {
                 tambahButton.setEnabled(false);
-                Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
-                nameField.setText(phone.getName());
-                priceField.setText(String.valueOf(phone.getPrice()));
+                Product product = productRepository.getProductByIndex(selectedRow);
+                nameField.setText(product.getName());
+                priceField.setText(String.format("%.0f", product.getPrice()));
             }
         });
 
@@ -87,9 +88,9 @@ public class ListProductsFrame extends JFrame {
                 try {
                     String name = nameField.getText();
                     double price = Double.parseDouble(priceField.getText());
-                    Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
-                    phone.setName(name);
-                    phone.setPrice(price);
+                    Product product = productRepository.getProductByIndex(selectedRow);
+                    product.setName(name);
+                    product.setPrice(price);
                     updateTable();
                     clearFields();
                 } catch (Exception ex) {
@@ -104,7 +105,7 @@ public class ListProductsFrame extends JFrame {
 
             for (int i = selectedRow.length - 1; i >= 0; i--) {
                 if (selectedRow[i] != -1) {
-                    phoneRepository.removePhoneByIndex(selectedRow[i]);
+                    productRepository.removeProductByIndex(selectedRow[i]);
                     updateTable();
                     clearFields();
                 }
@@ -125,12 +126,14 @@ public class ListProductsFrame extends JFrame {
     private void updateTable() {
         tableModel.setRowCount(0);
 
-        for (Phone phone : phoneRepository.getPhoneList()) {
-            tableModel.addRow(new Object[]{
-                phone.getName(),
-                phone.getBrand(),
-                numberFormat.format(phone.getPrice()),
-            });
+        for (Product product : productRepository.getProductList()) {
+            if (product instanceof Phone phone) {
+                tableModel.addRow(new Object[]{
+                        phone.getName(),
+                        phone.getBrand(),
+                        numberFormat.format(phone.getPrice()),
+                });
+            }
         }
     }
 

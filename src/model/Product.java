@@ -1,6 +1,6 @@
 package model;
 
-abstract class Product {
+public abstract class Product {
     protected String name;
     protected double price;
     protected int stock;

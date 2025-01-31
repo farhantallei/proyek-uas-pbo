@@ -1,7 +1,7 @@
 package gui;
 
-import model.Phone;
-import repository.PhoneRepository;
+import model.Product;
+import repository.ProductRepository;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +22,7 @@ public class ProductStockFrame extends JFrame {
 
     // Daftar variabel
     private DefaultTableModel tableModel;
-    private PhoneRepository phoneRepository;
+    private ProductRepository phoneRepository;
 
     // Number formatter
     NumberFormat numberFormat = NumberFormat.getInstance();
@@ -42,7 +42,7 @@ public class ProductStockFrame extends JFrame {
         table1.setModel(tableModel);
 
         // Mendapatkan instance dari ProductRepository
-        this.phoneRepository = PhoneRepository.getInstance();
+        this.phoneRepository = ProductRepository.getInstance();
 
         updateTable();
         clearFields();
@@ -51,7 +51,7 @@ public class ProductStockFrame extends JFrame {
             int selectedRow = table1.getSelectedRow();
             if (selectedRow != -1) {
                 try {
-                    Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
+                    Product phone = phoneRepository.getProductByIndex(selectedRow);
                     int stock = phone.getStock();
                     int stockToSubtract = Integer.parseInt(stockField.getText());
 
@@ -74,7 +74,7 @@ public class ProductStockFrame extends JFrame {
             int selectedRow = table1.getSelectedRow();
             if (selectedRow != -1) {
                 try {
-                    Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
+                    Product phone = phoneRepository.getProductByIndex(selectedRow);
                     int stockToAdd = Integer.parseInt(stockField.getText());
 
                     phone.updateStock(stockToAdd, true);
@@ -91,7 +91,7 @@ public class ProductStockFrame extends JFrame {
             int selectedRow = table1.getSelectedRow();
             if (selectedRow != -1) {
                 try {
-                    Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
+                    Product phone = phoneRepository.getProductByIndex(selectedRow);
                     int stock = Integer.parseInt(stockField.getText());
 
                     phone.updateStock(stock);
@@ -108,7 +108,7 @@ public class ProductStockFrame extends JFrame {
             int selectedRow = table1.getSelectedRow();
             if (selectedRow != -1) {
                 try {
-                    Phone phone = phoneRepository.getPhoneByIndex(selectedRow);
+                    Product phone = phoneRepository.getProductByIndex(selectedRow);
                     phone.updateStock(0);
                     updateTable();
                     table1.setRowSelectionInterval(selectedRow, selectedRow);
@@ -133,7 +133,7 @@ public class ProductStockFrame extends JFrame {
     private void updateTable() {
         tableModel.setRowCount(0);
 
-        for (Phone phone : phoneRepository.getPhoneList()) {
+        for (Product phone : phoneRepository.getProductList()) {
             tableModel.addRow(new Object[]{
                     phone.getName(),
                     numberFormat.format(phone.getPrice()),
