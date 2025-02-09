@@ -61,6 +61,7 @@ public class ListProductsFrame extends JFrame {
                 String name = nameField.getText();
                 double price = Double.parseDouble(priceField.getText());
 
+                // ✅ Implementasi Polymorphism
                 Product phone = new Phone(name, price, 0, brand);
 
                 productRepository.addProduct(phone);
@@ -77,6 +78,7 @@ public class ListProductsFrame extends JFrame {
             if (selectedRow != -1) {
                 tambahButton.setEnabled(false);
                 Product product = productRepository.getProductByIndex(selectedRow);
+                brandField.setText(product.getBrand());
                 nameField.setText(product.getName());
                 priceField.setText(String.format("%.0f", product.getPrice()));
             }
@@ -118,7 +120,7 @@ public class ListProductsFrame extends JFrame {
         });
 
         kembaliButton.addActionListener(e -> {
-            new MainFrame().setVisible(true);
+            new MainFrame(null).setVisible(true);
             dispose();
         });
     }
@@ -139,6 +141,7 @@ public class ListProductsFrame extends JFrame {
 
     private void clearFields() {
         tambahButton.setEnabled(true);
+        brandField.setText("");
         nameField.setText("");
         priceField.setText("");
     }

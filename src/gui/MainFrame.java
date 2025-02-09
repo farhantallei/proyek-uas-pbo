@@ -1,5 +1,7 @@
 package gui;
 
+import model.User;
+
 import javax.swing.*;
 
 /**
@@ -11,11 +13,12 @@ public class MainFrame extends JFrame {
     private JPanel panel1;
     private JButton stokProdukButton;
     private JButton keluarButton;
+    private JLabel userFullName;
 
     /**
      * Membuat frame utama baru.
      */
-    public MainFrame() {
+    public MainFrame(User user) {
         // Inisialisasi frame
         setTitle("Aplikasi Sistem Manajemen Stok Toko HP");
         setContentPane(panel1);
@@ -23,6 +26,11 @@ public class MainFrame extends JFrame {
         setMinimumSize(getSize());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        if (user != null) {
+            userFullName.setText("Hello, " + user.getFullName());
+            userFullName.setSize(500, 500);
+        }
 
         daftarProdukButton.addActionListener(e -> {
             ListProductsFrame listProductsFrame = new ListProductsFrame();

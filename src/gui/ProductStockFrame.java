@@ -125,7 +125,7 @@ public class ProductStockFrame extends JFrame {
         });
 
         kembaliButton.addActionListener(e -> {
-            new MainFrame().setVisible(true);
+            new MainFrame(null).setVisible(true);
             dispose();
         });
     }

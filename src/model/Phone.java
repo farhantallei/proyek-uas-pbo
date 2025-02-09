@@ -8,6 +8,14 @@ public class Phone extends Product {
         this.brand = brand;
     }
 
+    // ✅ Implementasi Overriding
+    @Override
+    public Integer getStock() {
+        System.out.println("Mengambil stok untuk produk: " + this.name);
+        return super.getStock();
+    }
+
+    @Override
     public String getBrand() {
         return brand;
     }

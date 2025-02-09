@@ -1,5 +1,8 @@
 package gui;
 
+import model.User;
+import repository.UserRepository;
+
 import javax.swing.*;
 
 /**
@@ -10,9 +13,11 @@ public class LoginFrame extends JFrame {
 
     // Komponen UI
     private JPanel panel1;
-    private JTextField usernameField;
+    private JTextField fullNameField;
     private JPasswordField passwordField;
+    private JButton registerButton;
     private JButton loginButton;
+    private JTextField usernameField;
 
     /**
      * Membuat frame login baru.
@@ -25,17 +30,25 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        loginButton.addActionListener(e -> {
-            String username = usernameField.getText();
+        registerButton.addActionListener(e -> {
+            String username = fullNameField.getText();
             String password = new String(passwordField
                     .getPassword());
-            if (username.equals("admin") && password.equals("admin")) {
-                MainFrame mainFrame = new MainFrame();
+
+            User user = UserRepository.getInstance().login(username, password);
+            if (user != null) {
+                MainFrame mainFrame = new MainFrame(user);
                 mainFrame.setVisible(true);
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Username atau password salah");
             }
+        });
+
+        loginButton.addActionListener(e -> {
+            RegisterFrame registerFrame = new RegisterFrame();
+            registerFrame.setVisible(true);
+            dispose();
         });
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+// ✅ Implementasi Abstract Class
 public abstract class Product {
     protected String name;
     protected double price;
@@ -31,6 +32,7 @@ public abstract class Product {
         this.stock = amount;
     }
 
+    // ✅ Implementasi Overloading
     public void updateStock(int amount, boolean isIncrease) {
         if (isIncrease) {
             this.stock += amount;
@@ -39,7 +41,11 @@ public abstract class Product {
         }
     }
 
+    // ✅ Implementasi Wrapper Class
     public Integer getStock() {
         return Integer.valueOf(stock);
     }
+
+    // ✅ Implementasi Abstract Method
+    public abstract String getBrand();
 }
